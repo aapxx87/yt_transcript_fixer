@@ -12,7 +12,8 @@ const btn_Clear = document.querySelector('.btn_clear')
 // ----- Inputs
 const inputDotsNumber = document.querySelector('.input_dots_number')
 const inputCustomBrakes = document.querySelector('.input_custom_brakes')
-const input_check_auto_brakes = document.querySelector('input[type=checkbox]')
+const input_check_auto_brakes = document.querySelector('#checkbox_auto_brakes')
+const input_auto_copy_clipboard = document.querySelector('#checkbox_auto_copy_clipboard')
 
 
 
@@ -119,7 +120,7 @@ const addBrakesByPattern = (pattern, text) => {
 
   }
 
-  // console.log(src.join(' '));
+
 
   return src.join(' ')
 }
@@ -136,10 +137,15 @@ const addBrakesByPattern = (pattern, text) => {
 btn_Fix.addEventListener('click', function () {
   textAreaOutput.textContent = findAndRemoreTimestampsUI(textAreaInput.value)
 
-  console.log(textAreaInput.value);
+  // console.log(textAreaInput.value);
 
   if (input_check_auto_brakes.checked) {
     textAreaOutputBrakesByDots.textContent = addBrakesAfterDots(findAndRemoreTimestampsUI(textAreaInput.value))
+
+    if (input_auto_copy_clipboard.checked) {
+      copyToClipboard('.textArea_output_brakes_by_dots')
+    }
+
   }
 
 })
@@ -160,17 +166,17 @@ btn_Cust_Brakes.addEventListener('click', function () {
 })
 
 
-btn_Clear.addEventListener('click', function () {
+
+
+
+
+// const pasteButton = document.querySelector('.btn_paste');
+
+btn_Clear.addEventListener('click', async function () {
   textAreaInput.value = ""
   textAreaOutput.textContent = ""
   textAreaOutputBrakesByDots.textContent = ""
-})
 
-
-
-const pasteButton = document.querySelector('.btn_paste');
-
-pasteButton.addEventListener('click', async () => {
   try {
     const text = await navigator.clipboard.readText()
     textAreaInput.value += text;
@@ -178,6 +184,29 @@ pasteButton.addEventListener('click', async () => {
   } catch (error) {
     console.log('Failed to read clipboard');
   }
-});
+
+  textAreaOutput.textContent = findAndRemoreTimestampsUI(textAreaInput.value)
+
+  // console.log(textAreaInput.value);
+
+  if (input_check_auto_brakes.checked) {
+    textAreaOutputBrakesByDots.textContent = addBrakesAfterDots(findAndRemoreTimestampsUI(textAreaInput.value))
+
+    if (input_auto_copy_clipboard.checked) {
+      copyToClipboard('.textArea_output_brakes_by_dots')
+    }
+
+  }
+})
+
+// pasteButton.addEventListener('click', async () => {
+//   try {
+//     const text = await navigator.clipboard.readText()
+//     textAreaInput.value += text;
+//     console.log('Text pasted.');
+//   } catch (error) {
+//     console.log('Failed to read clipboard');
+//   }
+// });
 
 
