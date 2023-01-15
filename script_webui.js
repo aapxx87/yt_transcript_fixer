@@ -168,16 +168,16 @@ btn_Clear.addEventListener('click', function () {
 
 
 
-// const pasteButton = document.querySelector('.btn_paste');
+const pasteButton = document.querySelector('.btn_paste');
 
-// pasteButton.addEventListener('click', async () => {
-//   try {
-//     const text = await navigator.clipboard.readText()
-//     textAreaInput.value += text;
-//     console.log('Text pasted.');
-//   } catch (error) {
-//     console.log('Failed to read clipboard');
-//   }
-// });
+pasteButton.addEventListener('click', async () => {
+  try {
+    const text = await navigator.clipboard.readText()
+    textAreaInput.value += text;
+    console.log('Text pasted.');
+  } catch (error) {
+    console.log('Failed to read clipboard');
+  }
+});
 
 
