@@ -22,6 +22,10 @@
   <!-- for Web UI -->
   <div class="app">
 
+
+
+    <!-- ------- Step 1: original text ------ -->
+
     <div class="textArea_box">
 
       <div class="teaxtarea_header">
@@ -34,14 +38,28 @@
         rows="10" class="textArea textArea_inPut"></textarea>
 
       <div class="buttons_box space_between">
-        <button class="btn btn_fix">Apply</button>
-        <button class="btn btn_clear">Clear</button>
+
+        <div class="box_btn_input display_block">
+
+          <div class="box_btn_input">
+            <label for="">Auto copy to Clipboard Step 3: </label>
+            <input type="checkbox" name="" id="checkbox_auto_copy_clipboard" class="input_checkbox">
+          </div>
+
+          <div class="btn_apply_original_text">
+            <button class="btn btn_fix">Fix</button>
+          </div>
+        </div>
+
+        <button class="btn btn_clear">Clear/Past/Fix</button>
       </div>
 
     </div>
 
 
 
+
+    <!-- ------- Step 2: removed timestamps ------ -->
 
     <div class="textArea_box">
 
@@ -86,6 +104,7 @@
 
 
 
+    <!-- ------- Step 3: added brakes by dots or patterns ------ -->
 
     <div class="textArea_box">
 

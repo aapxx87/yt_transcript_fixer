@@ -97,11 +97,16 @@ body {
 .btn_clear {
   border-color: rgb(95, 95, 95);
   color: rgb(95, 95, 95);
+  height: 33px;
 }
 
 .btn_clear:hover {
   border-color: rgb(251, 144, 144);
   color: rgb(251, 144, 144);
+}
+
+.btn_apply_original_text {
+  display: block;
 }
 
 
@@ -172,4 +177,8 @@ input::-webkit-inner-spin-button {
 
 .space_between {
   justify-content: space-between;
+}
+
+.display_block {
+  display: block;
 }
