@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>YT Transcript editor</title>
+</head>
+
+<body>
+
+  <!-- for Console version - without Web UI -->
+  <!-- <p class="original_text"></p> -->
+
+
+  <!-- for Web UI -->
+  <div class="app">
+
+    <!-- ------- Step 1: original text ------ -->
+
+    <div class="textArea_box">
+
+      <div class="teaxtarea_header">
+        <h3 class="header">Step 1: original text</h3>
+        <button class="btn btn_timestamp">TS</button>
+      </div>
+
+
+      <textarea placeholder="Enter original text to remove TimeStipes and Spaces..." wrap="soft" name="" id="" cols="30"
+        rows="10" class="textArea textArea_inPut"></textarea>
+
+      <div class="buttons_box space_between">
+
+        <div class="box_btn_input display_block">
+
+          <div class="box_btn_input">
+            <label for="">Auto copy to Clipboard Step 3: </label>
+            <input type="checkbox" name="" id="checkbox_auto_copy_clipboard" class="input_checkbox">
+          </div>
+
+          <div class="btn_apply_original_text">
+            <button class="btn btn_fix">Fix</button>
+          </div>
+        </div>
+
+        <button class="btn btn_clear">Clear/Past/Fix</button>
+      </div>
+
+
+    </div>
+
+
+
+
+    <!-- ------- Step 2: removed timestamps ------ -->
+
+    <div class="textArea_box">
+
+      <div class="teaxtarea_header">
+        <h3 class="header">Step 2: removed timestamps</h3>
+        <button onclick="copyToClipboard('.textArea_outPut')" class="btn btn_copy">Copy</button>
+      </div>
+
+      <textarea placeholder="Here you'll get fixed text..." wrap="soft" name="" id="" cols="30" rows="10"
+        class="textArea textArea_outPut" id="txtar_fix1"></textarea>
+
+      <div class="buttons_box">
+
+        <div class="left">
+
+          <div class="box_btn_input margin_bottom">
+            <label for="">Dots before break: </label>
+            <input value="5" type="number" min="1" max="10" step="1" oninput="validity.valid||(value='');"
+              onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+              class="input input_dots_number">
+            <button class="btn btn_brakes">Apply</button>
+          </div>
+
+
+          <div class="box_btn_input">
+            <label for="">Auto adding brake: </label>
+            <input type="checkbox" name="" id="checkbox_auto_brakes" class="input_checkbox">
+          </div>
+
+          <div class="box_btn_input">
+            <label for="">Patterns for break: </label>
+            <input type="text" class="input input_custom_brakes">
+            <button class="btn btn_custom_brakes">Apply</button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+    <!-- ------- Step 3: added brakes by dots or patterns ------ -->
+
+    <div class="textArea_box">
+
+      <div class="teaxtarea_header">
+        <h3 class="header">Step 3: added brakes by dots or patterns</h3>
+        <button onclick="copyToClipboard('.textArea_output_brakes_by_dots')"
+          class="btn btn-right_copy  btn_copy">Copy</button>
+      </div>
+
+
+      <textarea placeholder="Here you'll get fixed text with brakes by dots..." wrap="soft" name="" id="" cols="30"
+        rows="10" class="textArea textArea_output_brakes_by_dots" id="txtar_fix2"></textarea>
+
+
+    </div>
+
+
+
+
+  </div>
+
+
+
+  <script src="script_webui.js"></script>
+</body>
+
+</html>

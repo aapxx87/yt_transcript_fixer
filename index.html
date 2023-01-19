@@ -10,48 +10,54 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <title>YT Transcript editor</title>
+  <title>YT Transcript New UI</title>
 </head>
 
 <body>
 
-  <!-- for Console version - without Web UI -->
-  <!-- <p class="original_text"></p> -->
 
-
-  <!-- for Web UI -->
   <div class="app">
 
 
+    <!-- ------- LEFT BLOCK ------ -->
+    <div class="left_block">
 
-    <!-- ------- Step 1: original text ------ -->
-
-    <div class="textArea_box">
-
-      <div class="teaxtarea_header">
-        <h3 class="header">Step 1: original text</h3>
-        <!-- <button class="btn btn_paste">Paste</button> -->
-      </div>
-
-
-      <textarea placeholder="Enter original text to remove TimeStipes and Spaces..." wrap="soft" name="" id="" cols="30"
-        rows="10" class="textArea textArea_inPut"></textarea>
-
-      <div class="buttons_box space_between">
-
-        <div class="box_btn_input display_block">
-
-          <div class="box_btn_input">
-            <label for="">Auto copy to Clipboard Step 3: </label>
-            <input type="checkbox" name="" id="checkbox_auto_copy_clipboard" class="input_checkbox">
-          </div>
-
-          <div class="btn_apply_original_text">
-            <button class="btn btn_fix">Fix</button>
-          </div>
+      <div class="heading_box">
+        <div class="ico_header">
+          <ion-icon name="chevron-down-circle-outline" class="icon"></ion-icon>
+          <p class="heading">Actions</p>
         </div>
+        <div class="deco_line"></div>
+      </div>
 
-        <button class="btn btn_clear">Clear/Past/Fix</button>
+      <div class="button_container margin_bottom">
+        <p class="btn_label">C+P+F+C</p>
+        <button class="btn btn_chain">Chain</button>
+      </div>
+
+      <div class="button_container">
+        <p class="btn_label">Remove content</p>
+        <button class="btn btn_clear">Clear</button>
+      </div>
+
+      <div class="button_container">
+        <p class="btn_label">Past content</p>
+        <button class="btn btn_past">Past</button>
+      </div>
+
+      <div class="button_container margin_bottom">
+        <p class="btn_label">Copy content</p>
+        <button class="btn btn_copy">Copy</button>
+      </div>
+
+      <div class="button_container">
+        <p class="btn_label">Delete TS</p>
+        <button class="btn btn_fix">Apply</button>
+      </div>
+
+      <div class="button_container">
+        <p class="btn_label">Add brakes</p>
+        <button class="btn btn_brakes">Apply</button>
       </div>
 
 
@@ -60,67 +66,63 @@
 
 
 
-    <!-- ------- Step 2: removed timestamps ------ -->
+    <!-- ------- CENTER BLOCK ------ -->
+    <div class="center_block">
 
-    <div class="textArea_box">
+      <!-- <div class="center_top_block"> -->
+      <div class="heading_box">
+        <p class="heading heading_center align_center">Enter any content...</p>
+        <div class="deco_line margin_auto"></div>
+      </div>
+      <!-- </div> -->
 
-      <div class="teaxtarea_header">
-        <h3 class="header">Step 2: removed timestamps</h3>
-        <button onclick="copyToClipboard('.textArea_outPut')" class="btn btn_copy">Copy</button>
+      <div class="textarea_box">
+        <textarea placeholder="Enter original text to remove TimeStipes and Spaces..." wrap="soft" name="" id=""
+          cols="30" rows="10" class="textArea textArea_inPut"></textarea>
       </div>
 
-      <textarea placeholder="Here you'll get fixed text..." wrap="soft" name="" id="" cols="30" rows="10"
-        class="textArea textArea_outPut" id="txtar_fix1"></textarea>
+      <!-- <div class="hot_actions_box">
+        <button class="btn btn_fix">Fix</button>
+      </div> -->
 
-      <div class="buttons_box">
-
-        <div class="left">
-
-          <div class="box_btn_input margin_bottom">
-            <label for="">Dots before break: </label>
-            <input value="5" type="number" min="1" max="10" step="1" oninput="validity.valid||(value='');"
-              onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
-              class="input input_dots_number">
-            <button class="btn btn_brakes">Apply</button>
-          </div>
+    </div>
 
 
-          <div class="box_btn_input">
-            <label for="">Auto adding brake: </label>
-            <input type="checkbox" name="" id="checkbox_auto_brakes" class="input_checkbox">
-          </div>
 
-          <div class="box_btn_input">
-            <label for="">Patterns for break: </label>
-            <input type="text" class="input input_custom_brakes">
-            <button class="btn btn_custom_brakes">Apply</button>
-          </div>
 
+    <!-- ------- RIGHT BLOCK ------ -->
+    <div class="right_block">
+
+      <div class="heading_box">
+        <div class="ico_header">
+          <ion-icon name="document-text-outline" class="icon"></ion-icon>
+          <p class="heading">Versions</p>
         </div>
-
+        <div class="deco_line"></div>
       </div>
+
+      <div class="previe_box previe_box_1 preview_active">
+        <textarea disabled="true" wrap="soft" name="" id="" cols="30" rows="10"
+          class="textArea textarea_preview textArea_preview_origin"></textarea>
+      </div>
+      <h5 class="subheading">Origin</h5>
+
+      <div class="previe_box previe_box_2 display_none">
+        <textarea disabled="true" wrap="soft" name="" id="" cols="30" rows="10"
+          class="textArea textarea_preview textArea_preview_wt_ts"></textarea>
+      </div>
+      <h5 class="subheading subheading2 display_none">Version 1</h5>
+
+      <div class="previe_box previe_box_3 display_none">
+        <textarea disabled="true" wrap="soft" name="" id="" cols="30" rows="10"
+          class="textArea textarea_preview textArea_preview_dots"></textarea>
+      </div>
+      <h5 class="subheading subheading3 display_none">Version 2</h5>
 
     </div>
 
 
 
-
-    <!-- ------- Step 3: added brakes by dots or patterns ------ -->
-
-    <div class="textArea_box">
-
-      <div class="teaxtarea_header">
-        <h3 class="header">Step 3: added brakes by dots or patterns</h3>
-        <button onclick="copyToClipboard('.textArea_output_brakes_by_dots')"
-          class="btn btn-right_copy  btn_copy">Copy</button>
-      </div>
-
-
-      <textarea placeholder="Here you'll get fixed text with brakes by dots..." wrap="soft" name="" id="" cols="30"
-        rows="10" class="textArea textArea_output_brakes_by_dots" id="txtar_fix2"></textarea>
-
-
-    </div>
 
 
 
@@ -128,9 +130,12 @@
   </div>
 
 
+  <script src="script.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-  <script src="script_webui.js"></script>
-  <script src="script_consol.js"></script>
+
+
 </body>
 
 </html>
