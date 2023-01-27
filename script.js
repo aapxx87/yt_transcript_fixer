@@ -16,6 +16,17 @@ const btn_Copy = document.querySelector('.btn_copy')
 const btn_Clear = document.querySelector('.btn_clear')
 const btn_Past = document.querySelector('.btn_past')
 const btn_Chain = document.querySelector('.btn_chain')
+const btn_Pattern_Brakes = document.querySelector('.btn_patterns_brakes')
+
+
+// ----- Inputs
+const amountOfDots = document.querySelector('.input_dots_amount')
+const patternsForBrakes = document.querySelector('.input_custom_brakes')
+const autoPatternsBrakes = document.querySelector('#checkbox_patterns_brakes')
+
+
+
+
 
 const previewBoxes = document.querySelectorAll('.previe_box')
 
@@ -31,7 +42,7 @@ textAreaInput.addEventListener('input', function () {
 
 
 textAreaInput.addEventListener('paste', function () {
-  console.log('paste');
+  // console.log('paste');
   textAreaInput.scrollTo(0, 0)
 })
 
@@ -61,7 +72,7 @@ const getFirstFiveWords = text => {
   return finalString
 }
 
-// getFirstFiveWords(['1', '2', '3', '4', '5', '6', '7', '8', '9'])
+
 
 
 const findAndRemoreTimestampsUI = text => {
@@ -82,7 +93,7 @@ const findAndRemoreTimestampsUI = text => {
 
 const addBrakesAfterDots = text => {
 
-  // const dotsNumber = Number(inputDotsNumber.value)
+  const dotsAmount = Number(amountOfDots.value)
 
   const src = text.split(' ')
 
@@ -94,7 +105,7 @@ const addBrakesAfterDots = text => {
       acc++
     }
 
-    if (el[el.length - 1] === '.' && acc === 4) {
+    if (el[el.length - 1] === '.' && acc === dotsAmount) {
       src.splice(i + 1, 0, '\n\n');
       acc = 0
     }
@@ -118,6 +129,28 @@ function copyToClipboard(id) {
   el.select();
   document.execCommand('copy');
   document.body.removeChild(el);
+}
+
+
+
+
+const addBrakesByPattern = (pattern, text) => {
+
+  const patterns = [...pattern]
+
+  const src = text.split(' ')
+
+  for (const [i, el] of src.entries()) {
+
+    for (const x of patterns) {
+      if (el === x.toUpperCase()) {
+        src[i - 1] = `${src[i - 1]}\n\n`
+      }
+    }
+
+  }
+
+  return src.join(' ')
 }
 
 
@@ -254,7 +287,7 @@ btn_Chain.addEventListener('click', async function () {
   try {
     const text = await navigator.clipboard.readText()
     textAreaInput.value += text;
-    console.log('Text pasted.');
+    // console.log('Text pasted.');
     textAreaPreviewOrigin.value = textAreaInput.value
 
   } catch (error) {
@@ -284,11 +317,69 @@ btn_Chain.addEventListener('click', async function () {
 
   // 4. Add brakes
 
-  textWithDotsSpaces = addBrakesAfterDots(textWithoutTS)
+  if (autoPatternsBrakes.checked) {
 
-  textAreaPreviewSpaces.value = textWithDotsSpaces
+    const pattern = patternsForBrakes.value.split(' ')
 
-  textAreaInput.value = textWithDotsSpaces
+    textAreaInput.value = addBrakesByPattern(pattern, findAndRemoreTimestampsUI(textAreaInput.value))
+
+    textAreaPreviewSpaces.value = textAreaInput.value
+
+
+    for (const item of previewBoxes) {
+      item.classList.remove('preview_active')
+    }
+
+    previeBox3.classList.add('preview_active')
+
+
+    document.querySelector('.previe_box_3').classList.remove('display_none')
+    document.querySelector('.subheading3').classList.remove('display_none')
+
+    textAreaInput.scrollTo(0, 0)
+
+  } else {
+
+    textWithDotsSpaces = addBrakesAfterDots(textWithoutTS)
+
+    textAreaPreviewSpaces.value = textWithDotsSpaces
+
+    textAreaInput.value = textWithDotsSpaces
+    for (const item of previewBoxes) {
+      item.classList.remove('preview_active')
+    }
+
+    previeBox3.classList.add('preview_active')
+
+    document.querySelector('.previe_box_3').classList.remove('display_none')
+    document.querySelector('.subheading3').classList.remove('display_none')
+
+    textAreaInput.scrollTo(0, 0)
+
+  }
+
+
+
+
+  // 5. Copy final text
+
+  copyToClipboard('.textArea_inPut')
+
+
+})
+
+
+
+
+btn_Pattern_Brakes.addEventListener('click', function () {
+
+  const pattern = patternsForBrakes.value.split(' ')
+
+  textAreaInput.value = addBrakesByPattern(pattern, findAndRemoreTimestampsUI(textAreaInput.value))
+
+  textAreaPreviewSpaces.value = textAreaInput.value
+
+
   for (const item of previewBoxes) {
     item.classList.remove('preview_active')
   }
@@ -301,15 +392,6 @@ btn_Chain.addEventListener('click', async function () {
 
   textAreaInput.scrollTo(0, 0)
 
-
-  // 5. Copy final text
-
-  copyToClipboard('.textArea_inPut')
-
-
-
-
-
 })
 
 
@@ -317,6 +399,12 @@ btn_Chain.addEventListener('click', async function () {
 
 
 
+
+
+
+
+
+// ----- ADD DECO BORDERS TO PREVIEW PAGES
 
 previeBox1.addEventListener('click', function () {
   textAreaInput.value = origintext

@@ -120,8 +120,6 @@ const addBrakesByPattern = (pattern, text) => {
 
   }
 
-
-
   return src.join(' ')
 }
 

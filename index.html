@@ -30,10 +30,16 @@
         <div class="deco_line"></div>
       </div>
 
-      <div class="button_container margin_bottom">
+      <div class="button_container" style="display: none;">
+        <button class="btn btn_go_test">Go test</button>
+      </div>
+
+      <div class="button_container">
         <p class="btn_label">C+P+F+C</p>
         <button class="btn btn_chain">Chain</button>
       </div>
+
+      <div class="deco_line margin-top-bottom-left"></div>
 
       <div class="button_container">
         <p class="btn_label">Remove content</p>
@@ -45,19 +51,46 @@
         <button class="btn btn_past">Past</button>
       </div>
 
-      <div class="button_container margin_bottom">
+      <div class="button_container">
         <p class="btn_label">Copy content</p>
         <button class="btn btn_copy">Copy</button>
       </div>
+
+      <div class="deco_line margin-top-bottom-left"></div>
 
       <div class="button_container">
         <p class="btn_label">Delete TS</p>
         <button class="btn btn_fix">Apply</button>
       </div>
 
+      <div class="deco_line margin-top-bottom-left"></div>
+
+      <div class="button_container">
+        <p class="btn_label">Dots before break:</p>
+        <input value="5" type="number" min="1" max="10" step="1" oninput="validity.valid||(value='');"
+          onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+          class="input input_dots_amount">
+      </div>
+
       <div class="button_container">
         <p class="btn_label">Add brakes</p>
         <button class="btn btn_brakes">Apply</button>
+      </div>
+
+      <div class="button_container">
+        <p class="btn_label">Patterns: </p>
+        <input type="text" class="input input_custom_brakes">
+      </div>
+
+      <div class="button_container">
+        <p class="btn_label">Auto patterns brakes: </p>
+        <input type="checkbox" name="" id="checkbox_patterns_brakes" class="input_checkbox">
+      </div>
+
+
+      <div class="button_container">
+        <p class="btn_label">Patterns brakes</p>
+        <button class="btn btn_patterns_brakes">Apply</button>
       </div>
 
 
@@ -69,21 +102,16 @@
     <!-- ------- CENTER BLOCK ------ -->
     <div class="center_block">
 
-      <!-- <div class="center_top_block"> -->
       <div class="heading_box">
         <p class="heading heading_center align_center">Enter any content...</p>
         <div class="deco_line margin_auto"></div>
       </div>
-      <!-- </div> -->
+
 
       <div class="textarea_box">
         <textarea placeholder="Enter original text to remove TimeStipes and Spaces..." wrap="soft" name="" id=""
           cols="30" rows="10" class="textArea textArea_inPut"></textarea>
       </div>
-
-      <!-- <div class="hot_actions_box">
-        <button class="btn btn_fix">Fix</button>
-      </div> -->
 
     </div>
 
@@ -131,8 +159,10 @@
 
 
   <script src="script.js"></script>
+  <script src="script_test_timestamp.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
 
 
 
