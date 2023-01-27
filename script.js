@@ -91,7 +91,33 @@ const findAndRemoreTimestampsUI = text => {
 }
 
 
+
+
+// убираем лишний пробел в начале параграфов
+const trimStartParagraph = text => {
+
+  // разюиваем текст по параграфам. Один параграф - 1 строка string элемент в массиве. В параграфах будет первый симвоил - пробел, который мы можем уже легко убрать методом trimStart
+  const paragraphArr = text.split('\n')
+
+  // массив в который засунем исправленные параграфы, то есть уже без лишнего пробела
+  const fixedParagraphArr = []
+
+  for (const paragraph of paragraphArr) {
+    // у каждого параграфа, то есть это строка, убираем проблел в начале и суем его в массив
+    fixedParagraphArr.push(paragraph.trimStart())
+  }
+
+  // сращиваем массив с пофикшеными параграфами в текст по знаку \n, то есть сращиваем их при помощи переноса на новую строку
+  return fixedParagraphArr.join('\n')
+
+}
+
+
+
+
 const addBrakesAfterDots = text => {
+
+  const indexFirstparagraphWord = []
 
   const dotsAmount = Number(amountOfDots.value)
 
@@ -107,14 +133,25 @@ const addBrakesAfterDots = text => {
 
     if (el[el.length - 1] === '.' && acc === dotsAmount) {
       src.splice(i + 1, 0, '\n\n');
+      indexFirstparagraphWord.push(i + 2)
       acc = 0
     }
 
   }
 
-  return src.join(' ')
+
+  // trimStartParagraph(src.join(' '))
+
+
+
+  return trimStartParagraph(src.join(' '))
 
 }
+
+
+
+
+
 
 
 function copyToClipboard(id) {
@@ -150,7 +187,8 @@ const addBrakesByPattern = (pattern, text) => {
 
   }
 
-  return src.join(' ')
+  return trimStartParagraph(src.join(' '))
+
 }
 
 
@@ -190,6 +228,7 @@ btn_Brakes.addEventListener('click', function () {
 
   textWithDotsSpaces = addBrakesAfterDots(textWithoutTS)
 
+
   textAreaPreviewSpaces.value = textWithDotsSpaces
 
   textAreaInput.value = textWithDotsSpaces
@@ -208,9 +247,16 @@ btn_Brakes.addEventListener('click', function () {
 })
 
 
+
+
+
 btn_Copy.addEventListener('click', function () {
   copyToClipboard('.textArea_inPut')
 })
+
+
+
+
 
 
 btn_Clear.addEventListener('click', function () {
@@ -339,6 +385,7 @@ btn_Chain.addEventListener('click', async function () {
     textAreaInput.scrollTo(0, 0)
 
   } else {
+
 
     textWithDotsSpaces = addBrakesAfterDots(textWithoutTS)
 
