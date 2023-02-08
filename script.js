@@ -115,6 +115,7 @@ const trimStartParagraph = text => {
 
 
 
+
 const addBrakesAfterDots = text => {
 
   const indexFirstparagraphWord = []
