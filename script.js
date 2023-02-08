@@ -1,15 +1,16 @@
-// ----- TextAreas
+// - TextAreas
 const textAreaInput = document.querySelector('.textArea_inPut')
 const textAreaPreviewOrigin = document.querySelector('.textArea_preview_origin')
 const textAreaPreviewWithoutTS = document.querySelector('.textArea_preview_wt_ts')
 const textAreaPreviewSpaces = document.querySelector('.textArea_preview_dots')
 
+// --- Preview TextAreas
 const previeBox1 = document.querySelector('.previe_box_1')
 const previeBox2 = document.querySelector('.previe_box_2')
 const previeBox3 = document.querySelector('.previe_box_3')
 
 
-// ----- Buttons
+// - Buttons
 const btn_Fix = document.querySelector('.btn_fix')
 const btn_Brakes = document.querySelector('.btn_brakes')
 const btn_Copy = document.querySelector('.btn_copy')
@@ -19,13 +20,10 @@ const btn_Chain = document.querySelector('.btn_chain')
 const btn_Pattern_Brakes = document.querySelector('.btn_patterns_brakes')
 
 
-// ----- Inputs
+// - Inputs
 const amountOfDots = document.querySelector('.input_dots_amount')
 const patternsForBrakes = document.querySelector('.input_custom_brakes')
 const autoPatternsBrakes = document.querySelector('#checkbox_patterns_brakes')
-
-
-
 
 
 const previewBoxes = document.querySelectorAll('.previe_box')
@@ -51,44 +49,59 @@ textAreaInput.addEventListener('paste', function () {
 
 // ----- FUNCTIONS
 
+const find_and_remove_timestamps_and_brakes = origin_youtube_text => {
 
-const removeBrakesFromWord = word => {
+  const words_array = origin_youtube_text.split(' ')
 
-  const iFirst = word.indexOf('\n')
-  const iLast = word.lastIndexOf('\n')
+  const words_array_without_timestamp = words_array.map(word => {
 
-  const wordArr = word.split('')
-
-  wordArr.splice(iFirst, iLast - iFirst + 1, ' ')
-
-  return wordArr.join('')
-}
-
-
-const getFirstFiveWords = text => {
-  const arr1 = text.split(' ')
-  const newArr = arr1.slice(0, 6)
-  const finalString = `${newArr.join(' ')}...`
-  return finalString
-}
-
-
-
-
-const findAndRemoreTimestampsUI = text => {
-
-  const textArr = text.split(' ')
-
-  for (const [i, word] of textArr.entries()) {
     if (word.includes('\n')) {
-      const fixWord = removeBrakesFromWord(word)
-      textArr.splice(i, 1, fixWord)
+      const word_with_timestamp = word
+      const word_without_timestamp = remove_timestamps_from_trigger_word(word_with_timestamp)
+      return word_without_timestamp
     }
-  }
 
-  return textArr.join(' ')
+    return word
+
+  })
+
+  return words_array_without_timestamp.join(' ')
 
 }
+
+
+
+
+
+
+const remove_timestamps_from_trigger_word = word_with_timestamp => {
+
+  const idxFirst = word_with_timestamp.indexOf('\n')
+  const idxLast = word_with_timestamp.lastIndexOf('\n')
+
+  const letters_array = word_with_timestamp.split('')
+
+  letters_array.splice(idxFirst, idxLast - idxFirst + 1, ' ')
+
+  return letters_array.join('')
+}
+
+
+
+
+
+
+const create_string_from_first_five_words = text => {
+  const words_array = text.split(' ')
+  const first_five_words_array = words_array.slice(0, 6)
+  const first_five_words_string = `${first_five_words_array.join(' ')}...`
+  return first_five_words_string
+}
+
+
+
+
+
 
 
 
@@ -190,50 +203,55 @@ const addBrakesByPattern = (pattern, text) => {
 
 
 
+
+
+
 // ----- EVENTS HANDLERS
 
-let origintext = ''
-let textWithoutTS = ''
+let origin_youtube_text = ''
+let text_without_timestamps_and_brakes = ''
 let textWithDotsSpaces = ''
 let textWithCustomSpaces = ''
 
 
 
+
 btn_Fix.addEventListener('click', function () {
 
-  origintext = textAreaInput.value
-  textWithoutTS = findAndRemoreTimestampsUI(textAreaInput.value)
-  textAreaPreviewWithoutTS.value = textWithoutTS
-  contentFirstWord.textContent = getFirstFiveWords(findAndRemoreTimestampsUI(textAreaInput.value))
+  origin_youtube_text = textAreaInput.value
 
-  textAreaInput.value = textWithoutTS
-  for (const item of previewBoxes) {
-    item.classList.remove('preview_active')
-  }
-  previeBox2.classList.add('preview_active')
+  text_without_timestamps_and_brakes = find_and_remove_timestamps_and_brakes(origin_youtube_text)
+
+  textAreaPreviewWithoutTS.value = text_without_timestamps_and_brakes
+
+  contentFirstWord.textContent = create_string_from_first_five_words(text_without_timestamps_and_brakes)
+
+  textAreaInput.value = text_without_timestamps_and_brakes
+
+  switch_border_to_active_previewBox(previeBox2)
 
   document.querySelector('.previe_box_2').classList.remove('display_none')
-  document.querySelector('.subheading2').classList.remove('display_none')
 
+  document.querySelector('.subheading2').classList.remove('display_none')
 
   textAreaInput.scrollTo(0, 0)
 })
 
 
+
+
+
+
 btn_Brakes.addEventListener('click', function () {
 
-  textWithDotsSpaces = addBrakesAfterDots(textWithoutTS)
+  textWithDotsSpaces = addBrakesAfterDots(text_without_timestamps_and_brakes)
 
 
   textAreaPreviewSpaces.value = textWithDotsSpaces
 
   textAreaInput.value = textWithDotsSpaces
-  for (const item of previewBoxes) {
-    item.classList.remove('preview_active')
-  }
 
-  previeBox3.classList.add('preview_active')
-
+  switch_border_to_active_previewBox(previeBox3)
 
   document.querySelector('.previe_box_3').classList.remove('display_none')
   document.querySelector('.subheading3').classList.remove('display_none')
@@ -261,17 +279,15 @@ btn_Clear.addEventListener('click', function () {
   textAreaPreviewOrigin.value = ''
   textAreaPreviewWithoutTS.value = ''
   textAreaPreviewSpaces.value = ''
-  origintext = ''
-  textWithoutTS = ''
+  origin_youtube_text = ''
+  text_without_timestamps_and_brakes = ''
   textWithDotsSpaces = ''
   textWithCustomSpaces = ''
   contentFirstWord.textContent = 'Enter any content...'
 
-  for (const item of previewBoxes) {
-    item.classList.remove('preview_active')
-  }
 
-  previeBox1.classList.add('preview_active')
+  switch_border_to_active_previewBox(previeBox1)
+
 
   document.querySelector('.previe_box_3').classList.add('display_none')
   document.querySelector('.subheading3').classList.add('display_none')
@@ -279,6 +295,11 @@ btn_Clear.addEventListener('click', function () {
   document.querySelector('.subheading2').classList.add('display_none')
 
 })
+
+
+
+
+
 
 
 btn_Past.addEventListener('click', async () => {
@@ -294,8 +315,15 @@ btn_Past.addEventListener('click', async () => {
 
   textAreaInput.scrollTo(0, 0)
 
-  contentFirstWord.textContent = getFirstFiveWords(findAndRemoreTimestampsUI(textAreaInput.value))
+  contentFirstWord.textContent = create_string_from_first_five_words(find_and_remove_timestamps_and_brakes(textAreaInput.value))
 });
+
+
+
+
+
+
+
 
 
 btn_Chain.addEventListener('click', async function () {
@@ -306,8 +334,8 @@ btn_Chain.addEventListener('click', async function () {
   textAreaPreviewOrigin.value = ''
   textAreaPreviewWithoutTS.value = ''
   textAreaPreviewSpaces.value = ''
-  origintext = ''
-  textWithoutTS = ''
+  origin_youtube_text = ''
+  text_without_timestamps_and_brakes = ''
   textWithDotsSpaces = ''
   textWithCustomSpaces = ''
   contentFirstWord.textContent = 'Enter any content...'
@@ -338,20 +366,18 @@ btn_Chain.addEventListener('click', async function () {
 
   textAreaInput.scrollTo(0, 0)
 
-  contentFirstWord.textContent = getFirstFiveWords(findAndRemoreTimestampsUI(textAreaInput.value))
+  contentFirstWord.textContent = create_string_from_first_five_words(find_and_remove_timestamps_and_brakes(textAreaInput.value))
 
   // 3. Fix TimeStamps
 
-  origintext = textAreaInput.value
-  textWithoutTS = findAndRemoreTimestampsUI(textAreaInput.value)
-  textAreaPreviewWithoutTS.value = textWithoutTS
-  contentFirstWord.textContent = getFirstFiveWords(findAndRemoreTimestampsUI(textAreaInput.value))
+  origin_youtube_text = textAreaInput.value
+  text_without_timestamps_and_brakes = find_and_remove_timestamps_and_brakes(textAreaInput.value)
+  textAreaPreviewWithoutTS.value = text_without_timestamps_and_brakes
+  contentFirstWord.textContent = create_string_from_first_five_words(find_and_remove_timestamps_and_brakes(textAreaInput.value))
 
-  textAreaInput.value = textWithoutTS
-  for (const item of previewBoxes) {
-    item.classList.remove('preview_active')
-  }
-  previeBox2.classList.add('preview_active')
+  textAreaInput.value = text_without_timestamps_and_brakes
+
+  switch_border_to_active_previewBox(previeBox2)
 
   document.querySelector('.previe_box_2').classList.remove('display_none')
   document.querySelector('.subheading2').classList.remove('display_none')
@@ -363,16 +389,12 @@ btn_Chain.addEventListener('click', async function () {
 
     const pattern = patternsForBrakes.value.split(' ')
 
-    textAreaInput.value = addBrakesByPattern(pattern, findAndRemoreTimestampsUI(textAreaInput.value))
+    textAreaInput.value = addBrakesByPattern(pattern, find_and_remove_timestamps_and_brakes(textAreaInput.value))
 
     textAreaPreviewSpaces.value = textAreaInput.value
 
+    switch_border_to_active_previewBox(previeBox3)
 
-    for (const item of previewBoxes) {
-      item.classList.remove('preview_active')
-    }
-
-    previeBox3.classList.add('preview_active')
 
 
     document.querySelector('.previe_box_3').classList.remove('display_none')
@@ -383,16 +405,13 @@ btn_Chain.addEventListener('click', async function () {
   } else {
 
 
-    textWithDotsSpaces = addBrakesAfterDots(textWithoutTS)
+    textWithDotsSpaces = addBrakesAfterDots(text_without_timestamps_and_brakes)
 
     textAreaPreviewSpaces.value = textWithDotsSpaces
 
     textAreaInput.value = textWithDotsSpaces
-    for (const item of previewBoxes) {
-      item.classList.remove('preview_active')
-    }
 
-    previeBox3.classList.add('preview_active')
+    switch_border_to_active_previewBox(previeBox3)
 
     document.querySelector('.previe_box_3').classList.remove('display_none')
     document.querySelector('.subheading3').classList.remove('display_none')
@@ -418,16 +437,11 @@ btn_Pattern_Brakes.addEventListener('click', function () {
 
   const pattern = patternsForBrakes.value.split(' ')
 
-  textAreaInput.value = addBrakesByPattern(pattern, findAndRemoreTimestampsUI(textAreaInput.value))
+  textAreaInput.value = addBrakesByPattern(pattern, find_and_remove_timestamps_and_brakes(textAreaInput.value))
 
   textAreaPreviewSpaces.value = textAreaInput.value
 
-
-  for (const item of previewBoxes) {
-    item.classList.remove('preview_active')
-  }
-
-  previeBox3.classList.add('preview_active')
+  switch_border_to_active_previewBox(previeBox3)
 
 
   document.querySelector('.previe_box_3').classList.remove('display_none')
@@ -449,34 +463,38 @@ btn_Pattern_Brakes.addEventListener('click', function () {
 
 // ----- ADD DECO BORDERS TO PREVIEW PAGES
 
-previeBox1.addEventListener('click', function () {
-  textAreaInput.value = origintext
-  for (const item of previewBoxes) {
-    item.classList.remove('preview_active')
-  }
 
-  previeBox1.classList.add('preview_active')
-})
-
-
-previeBox2.addEventListener('click', function () {
-
-  textAreaInput.value = textWithoutTS
+const switch_border_to_active_previewBox = preview_element => {
 
   for (const item of previewBoxes) {
     item.classList.remove('preview_active')
   }
 
-  previeBox2.classList.add('preview_active')
+  preview_element.classList.add('preview_active')
 
-})
+}
 
 
-previeBox3.addEventListener('click', function () {
-  textAreaInput.value = textWithDotsSpaces
-  for (const item of previewBoxes) {
-    item.classList.remove('preview_active')
-  }
 
-  previeBox3.classList.add('preview_active')
-})
+const switch_active_border_class_previewBox = () => {
+
+  previewBoxes.forEach((element, idx) => {
+
+    element.addEventListener('click', function () {
+
+      const active_previewBox = document.querySelector(`.previe_box_${idx + 1}`)
+
+      switch_border_to_active_previewBox(active_previewBox)
+
+    })
+
+  })
+
+}
+
+
+switch_active_border_class_previewBox()
+
+
+
+
