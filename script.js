@@ -139,11 +139,6 @@ const addBrakesAfterDots = text => {
 
   }
 
-
-  // trimStartParagraph(src.join(' '))
-
-
-
   return trimStartParagraph(src.join(' '))
 
 }
