@@ -5,7 +5,6 @@
 
 2) юзер нажимает кнопку __Delete TS__ (html class: '.btn_fix', js: btn_Fix) 
 
-
 2.1.) исходный неформатированный текст -> попадает в фукнцию __findAndRemoreTimestampsUI(parameter: string)__
 
 Input:
@@ -67,6 +66,74 @@ String
 
 
 
+3.) нужно в сплошной текст без таймштампов и параграфов разбить на параграфы. Для это текст очищенный от таймштампов (text_without_timestamps_and_paragraphs) передаем в функцию __add_paragraphs_to_text(parameter: string text_without_paragraphs)__
+
+
+Input:
+String
+
+"science-based tools for everyday life. [MUSIC PLAYING] I'm Andrew Huberman, and I'm a professor of neurobiology and ophthalmology at Stanford School of Medicine. Today we are discussing fertility. We will discuss male fertility and female fertility. And I should mention that today's discussion is not just"
+
+
+Логика:
+
+1) Мы добавляем парграф, то есть перенос на новую строку, после определенного количества предложений. 
+
+2) Предложение мы определяем по тому где находится точка. То есть после каждой 3 или 4 или 5 точки мы добавляем перенос на новую строку, то есть создаемновый параграф. 
+
+3) Количество точек (то есть предложений после которых добавлять параграф получвем из инпута в UI)
+
+4) мы разбиваем текст на массив, где каждый элемент это одно слово
+
+['science-based', 'tools', 'for', 'everyday', 'life.', '[MUSIC', 'PLAYING]', "I'm", 'Andrew', 'Huberman,', 'and', "I'm", 'a', 'professor', 'of', 'neurobiology', 'and', 'ophthalmology', 'at', 'Stanford', 'School', 'of', 'Medicine.', 'Today', 'we', 'are', 'discussing', 'fertility.', 'We', 'will', 'discuss', 'male', 'fertility', 'and', 'female', 'fertility.', 'And', 'I', 'should', 'mention', 'that', "today's", 'discussion', 'is', 'not', 'just']
+
+5) точки содержатся в элемента слова: 'Medicine.', 'fertility.'
+
+6) мы проходимся циклом по массиву со словами и создаем условия, что если последний элемент в текущем итерируемом слове '.' точка
+
+    if (el[el.length - 1] === '.') {
+      acc++
+    }
+
+то мы прибаляем к аккумулятору + 1
+
+ let current_amount_of_dots = 0
+
+7) когда значение аккумулятора равно значению количества точек после которого ставить параграф, то мы вставляем после этого символа в массив со словами элемент с переносом на новую строку
+
+    if (el[el.length - 1] === '.' && acc === dotsAmount) {
+      words_array.splice(i + 1, 0, '\n\n');
+      indexFirstparagraphWord.push(i + 2)
+      acc = 0
+    }
+
+
+8) затем массив с добваленными переносами на новую строку соединяем words_array.join(' '), но так как мы соединяем по пробелу, то в начале каждого параграфа будет лишний пробел, поэтому прогоняем полученный текст через функцию __trimStartParagraph()__ и удаляем лишние пробелы в начале параграфов
+
+
+
+
+
+__trimStartParagraph()__
+
+// убираем лишний пробел в начале параграфов
+const trimStartParagraph = text => {
+
+  // разюиваем текст по параграфам. Один параграф - 1 строка string элемент в массиве. В параграфах будет первый симвоил - пробел, который мы можем уже легко убрать методом trimStart
+  const paragraphArr = text.split('\n')
+
+  // массив в который засунем исправленные параграфы, то есть уже без лишнего пробела
+  const fixedParagraphArr = []
+
+  for (const paragraph of paragraphArr) {
+    // у каждого параграфа, то есть это строка, убираем проблел в начале и суем его в массив
+    fixedParagraphArr.push(paragraph.trimStart())
+  }
+
+  // сращиваем массив с пофикшеными параграфами в текст по знаку \n, то есть сращиваем их при помощи переноса на новую строку
+  return fixedParagraphArr.join('\n')
+
+}
 
 
 
